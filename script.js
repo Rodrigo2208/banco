@@ -1,20 +1,37 @@
-const email = "teste@teste.com"
-const senha = "123456"
-localStorage.setItem(email, senha)
+const emailInputLogin = document.getElementById("email")
+const senhaInputLogin = document.getElementById("senha")
+const formularioLogin = document.getElementById("formulario_login")
 
-const emailInput = document.getElementById("email")
-const senhaInput = document.getElementById("senha")
-const formulario = document.getElementById("formulario_login")
-
-// Quando o formulário for submetido
-// Ele envia e atualiza a pagina
-// Esse é o evento padrao ("Default") do html para a tag <form>
-formulario.addEventListener("submit", (event) => {
+formularioLogin.addEventListener("submit", (event) => {
     event.preventDefault()
-    const emailDigitado = emailInput.value
-    const senhaDigitada = senhaInput.value
+    const emailDigitado = emailInputLogin.value
+    const senhaDigitada = senhaInputLogin.value
 
-    console.log(emailDigitado)
-    console.log(senhaDigitada)
+    const usuarios = JSON.parse(localStorage.getItem("usuarios"))
 
+    const usuarioEncontrado =  usuarios.find((usuario) => {
+        return (
+            usuario.email == emailDigitado &&
+            usuario.senha == senhaDigitada
+        
+        )
+    })
+
+    if (usuarioEncontrado) {
+        Swal.fire({
+            title: "Parabens!",
+            text: "Você é foda.",
+            timer:1500,
+            showConfirmButton: false,
+            icon: "success"
+          });
+    
+    } else {
+        Swal.fire({
+            icon: "error",
+            title: "Algo aconteceu tente novamente.",
+            text: "Seu bucetudo!",
+            footer: '<a href="#">Why do I have this issue?</a>'
+          });
+    }
 })
